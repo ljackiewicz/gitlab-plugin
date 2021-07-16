@@ -2,6 +2,7 @@ package com.dabsquared.gitlabjenkins.cause;
 
 import com.dabsquared.gitlabjenkins.gitlab.api.model.MergeRequest;
 import hudson.markup.EscapedMarkupFormatter;
+import io.jenkins.plugins.MarkdownFormatter;
 import jenkins.model.Jenkins;
 import net.karneim.pojobuilder.GeneratePojoBuilder;
 import org.apache.commons.lang.StringUtils;
@@ -528,6 +529,11 @@ public final class CauseData {
                     return Messages.GitLabWebHookCause_ShortDescription_MergeRequestHook_plain(String.valueOf(data.getMergeRequestIid()),
                                                                                                forkNamespace + data.getSourceBranch(),
                                                                                                data.getTargetBranch());
+                } if (Jenkins.getActiveInstance().getMarkupFormatter() instanceof MarkdownFormatter) {
+                    return Messages.GitLabWebHookCause_ShortDescription_MergeRequestHook_markdown(String.valueOf(data.getMergeRequestId()),
+                                                                                                  forkNamespace + data.getSourceBranch(),
+                                                                                                  data.getTargetBranch(),
+                                                                                                  data.getTargetProjectUrl());
                 } else {
                     return Messages.GitLabWebHookCause_ShortDescription_MergeRequestHook_html(String.valueOf(data.getMergeRequestIid()),
                                                                                               forkNamespace + data.getSourceBranch(),
@@ -545,6 +551,12 @@ public final class CauseData {
                         String.valueOf(data.getMergeRequestIid()),
                         forkNamespace + data.getSourceBranch(),
                         data.getTargetBranch());
+                } if (Jenkins.getActiveInstance().getMarkupFormatter() instanceof MarkdownFormatter) {
+                    return Messages.GitLabWebHookCause_ShortDescription_NoteHook_markdown(triggeredBy,
+                        String.valueOf(data.getMergeRequestId()),
+                        forkNamespace + data.getSourceBranch(),
+                        data.getTargetBranch(),
+                        data.getTargetProjectUrl());
                 } else {
                     return Messages.GitLabWebHookCause_ShortDescription_NoteHook_html(triggeredBy,
                         String.valueOf(data.getMergeRequestIid()),
