@@ -71,7 +71,7 @@ public final class CauseData {
               Integer mergeRequestIid, Integer mergeRequestTargetProjectId, String targetBranch, String targetRepoName, String targetNamespace, String targetRepoSshUrl,
               String targetRepoHttpUrl, String triggeredByUser, String before, String after, String lastCommit, String targetProjectUrl,
               String triggerPhrase, String mergeRequestState, String mergedByUser, String mergeRequestAssignee, String ref, String isTag,
-	            String sha, String beforeSha, String status, String stages, String createdAt, String finishedAt, String buildDuration) {
+              String sha, String beforeSha, String status, String stages, String createdAt, String finishedAt, String buildDuration) {
         this.actionType = checkNotNull(actionType, "actionType must not be null.");
         this.sourceProjectId = checkNotNull(sourceProjectId, "sourceProjectId must not be null.");
         this.targetProjectId = checkNotNull(targetProjectId, "targetProjectId must not be null.");
@@ -306,31 +306,49 @@ public final class CauseData {
     }
 
     @Exported
-    public String getRef() { return ref; }
+    public String getRef() {
+        return ref;
+    }
 
     @Exported
-    public String getIsTag() { return isTag; }
+    public String getIsTag() {
+        return isTag;
+    }
 
     @Exported
-    public String getSha() { return sha; }
+    public String getSha() {
+        return sha;
+    }
 
     @Exported
-    public String getBeforeSha() {return beforeSha; }
+    public String getBeforeSha() {
+        return beforeSha;
+    }
 
     @Exported
-    public String getStatus() { return status; }
+    public String getStatus() {
+        return status;
+    }
 
     @Exported
-    public String getStages() { return stages; }
+    public String getStages() {
+        return stages;
+    }
 
     @Exported
-    public String getCreatedAt() { return createdAt; }
+    public String getCreatedAt() {
+        return createdAt;
+    }
 
     @Exported
-    public String getFinishedAt() { return finishedAt; }
+    public String getFinishedAt() {
+        return finishedAt;
+    }
 
     @Exported
-    public String getBuildDuration() { return buildDuration; }
+    public String getBuildDuration() {
+        return buildDuration;
+    }
 
 
     String getShortDescription() {
@@ -339,21 +357,21 @@ public final class CauseData {
 
     @Exported
     public String getMergeRequestState() {
-		return mergeRequestState;
-	}
+        return mergeRequestState;
+    }
 
     @Exported
-	public String getMergedByUser() {
-		return mergedByUser;
-	}
+    public String getMergedByUser() {
+        return mergedByUser;
+    }
 
     @Exported
-	public String getMergeRequestAssignee() {
-		return mergeRequestAssignee;
-	}
+    public String getMergeRequestAssignee() {
+        return mergeRequestAssignee;
+    }
 
     @Exported
-	public MergeRequest getMergeRequest() {
+    public MergeRequest getMergeRequest() {
         if (mergeRequestId == null) {
             return null;
         }
@@ -527,18 +545,18 @@ public final class CauseData {
                 String forkNamespace = StringUtils.equals(data.getSourceNamespace(), data.getTargetBranch()) ? "" : data.getSourceNamespace() + "/";
                 if (Jenkins.getActiveInstance().getMarkupFormatter() instanceof EscapedMarkupFormatter || data.getTargetProjectUrl() == null) {
                     return Messages.GitLabWebHookCause_ShortDescription_MergeRequestHook_plain(String.valueOf(data.getMergeRequestIid()),
-                                                                                               forkNamespace + data.getSourceBranch(),
-                                                                                               data.getTargetBranch());
-                } if (Jenkins.getActiveInstance().getMarkupFormatter() instanceof MarkdownFormatter) {
+                        forkNamespace + data.getSourceBranch(),
+                        data.getTargetBranch());
+                } else if (Jenkins.getActiveInstance().getMarkupFormatter() instanceof MarkdownFormatter) {
                     return Messages.GitLabWebHookCause_ShortDescription_MergeRequestHook_markdown(String.valueOf(data.getMergeRequestId()),
-                                                                                                  forkNamespace + data.getSourceBranch(),
-                                                                                                  data.getTargetBranch(),
-                                                                                                  data.getTargetProjectUrl());
+                        forkNamespace + data.getSourceBranch(),
+                        data.getTargetBranch(),
+                        data.getTargetProjectUrl());
                 } else {
                     return Messages.GitLabWebHookCause_ShortDescription_MergeRequestHook_html(String.valueOf(data.getMergeRequestIid()),
-                                                                                              forkNamespace + data.getSourceBranch(),
-                                                                                              data.getTargetBranch(),
-                                                                                              data.getTargetProjectUrl());
+                        forkNamespace + data.getSourceBranch(),
+                        data.getTargetBranch(),
+                        data.getTargetProjectUrl());
                 }
             }
         }, NOTE {
@@ -551,7 +569,7 @@ public final class CauseData {
                         String.valueOf(data.getMergeRequestIid()),
                         forkNamespace + data.getSourceBranch(),
                         data.getTargetBranch());
-                } if (Jenkins.getActiveInstance().getMarkupFormatter() instanceof MarkdownFormatter) {
+                } else if (Jenkins.getActiveInstance().getMarkupFormatter() instanceof MarkdownFormatter) {
                     return Messages.GitLabWebHookCause_ShortDescription_NoteHook_markdown(triggeredBy,
                         String.valueOf(data.getMergeRequestId()),
                         forkNamespace + data.getSourceBranch(),
@@ -566,15 +584,15 @@ public final class CauseData {
                 }
             }
         }, PIPELINE {
-                @Override
-                String getShortDescription(CauseData data) {
-                    String getStatus = data.getStatus();
-                    if (getStatus == null) {
-                       return Messages.GitLabWebHookCause_ShortDescription_PipelineHook_noStatus();
-                    } else {
-                      return Messages.GitLabWebHookCause_ShortDescription_PipelineHook(getStatus);
-                    }
+            @Override
+            String getShortDescription(CauseData data) {
+                String getStatus = data.getStatus();
+                if (getStatus == null) {
+                    return Messages.GitLabWebHookCause_ShortDescription_PipelineHook_noStatus();
+                } else {
+                    return Messages.GitLabWebHookCause_ShortDescription_PipelineHook(getStatus);
                 }
+            }
         };
 
         private static String getShortDescriptionPush(CauseData data) {
